@@ -1,0 +1,23 @@
+{
+  "name": "codes-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "startDev": "nodemon main.js",
+    "test": "mocha"
+  },
+  "author": "Antonio Jose Alors Perez",
+  "license": "MIT",
+  "dependencies": {
+    "agenda": "^1.0.0",
+    "crypto": "^1.0.1",
+    "mongodb": "^2.2.31",
+    "mongoose": "^4.11.10",
+    "node-telegram-bot-api": "^0.28.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.0"
+  }
+}
