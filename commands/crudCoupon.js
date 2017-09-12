@@ -86,7 +86,7 @@ exports.notifyChanges = function(msg, match, callback) {
       callback(err+'');
     });
     
-}
+};
         
 
 exports.listUsers = function(msg, match, callback) {
@@ -98,9 +98,11 @@ exports.listUsers = function(msg, match, callback) {
       return  User.find({});
     })
     .then((usersArray) => {
+      response += '*There are ' + usersArray.length + ' users:*';
+
       for (var index = 0; index < usersArray.length; index++) {
         let user = usersArray[index];
-        response += '\n' + user.id + ': '+ user.subscribed;
+        response += '\n' + (user.username || user.id) + ': '+ user.subscribed;
       }
       
       callback(response);
@@ -110,7 +112,7 @@ exports.listUsers = function(msg, match, callback) {
       callback(err+'');
     });
     
-}
+};
         
 
 

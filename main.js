@@ -21,23 +21,23 @@ mongoose.connect(config.mongoConnectionString, {useMongoClient: true});
 // Admin messages
 bot.onText(/\/newCoupon (.+)/, (msg, match) => {
   commands.createCoupon(msg, match, function(response){
-    bot.sendMessage(msg.chat.id, response);
+    bot.sendMessage(msg.chat.id, response, config.basicOptions);
   });
 });
 bot.onText(/\/updateCoupon (.+)/, (msg, match) => {
   console.log('update');
   commands.updateCoupon(msg, match, function(response){
-    bot.sendMessage(msg.chat.id, response);
+    bot.sendMessage(msg.chat.id, response, config.basicOptions);
   });
 });
 bot.onText(/\/deleteCoupon (.+)/, (msg, match) => {
   commands.deleteCoupon(msg, match, function(response){
-    bot.sendMessage(msg.chat.id, response);
+    bot.sendMessage(msg.chat.id, response, config.basicOptions);
   });
 });
 bot.onText(/\/users/, (msg, match) => {
   commands.listUsers(msg, match, function(response){
-    bot.sendMessage(msg.chat.id, response);
+    bot.sendMessage(msg.chat.id, response, config.basicOptions);  
   });
 });
 bot.onText(/\/notify/, (msg, match) => {
@@ -122,15 +122,25 @@ bot.onText(/\/about/, (msg, match) => {
 
 function help(msg){
   let response = config.helpMessage;
-  
+
   userAct.userUpsert(msg)
-  .then(() => {
+  .then((user) => {
+    
+    if(user === null){
+      bot.sendMessage(config.adminId, 'New user!');    
+    }
+    
     return calculateKeyboardOptions(msg, 'help');
   })
   .then((options) => {
-    bot.sendMessage(msg.chat.id, response, options);  
+    bot.sendMessage(msg.chat.id, response, options);
   })
   .catch( err => {
     bot.sendMessage(msg.chat.id, err+'');  
   });
 } 
+
+
+setInterval(() => {
+  bot.sendMessage(config.adminId, 'No te olvides de mi!');      
+}, 1000*60*60*24)

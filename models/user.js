@@ -5,8 +5,15 @@ let UserSchema = new Schema({
   chatId: {
     type: String,
     required: true
+  },  
+  username: {
+    type: String
   },
   lastMessage: {
+    type: Date,
+    default: Date.now
+  },
+  createdAt: {
     type: Date,
     default: Date.now
   },
