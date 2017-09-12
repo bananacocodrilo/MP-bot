@@ -4,6 +4,8 @@ let mongoose = require('mongoose');
 let Coupon = mongoose.model('Coupon');
 let User = mongoose.model('User');
 let generateCouponsString = require('../src/chatFunctions').generateCouponsString;
+let checkAdmin = require('../src/chatFunctions').checkAdmin;
+
 
 exports.createCoupon = function(msg, match, callback) {  
   let counponData =  JSON.parse(msg.text.slice( 10 ).trim());
@@ -114,15 +116,3 @@ exports.listUsers = function(msg, match, callback) {
     
 };
         
-
-
-
-function checkAdmin(msg){
-  return new Promise (function(resolve, reject){
-    if(msg.chat.id+'' === config.adminId){
-      resolve();
-    }else{
-      reject('This command is reserver for admins only');
-    }
-  });
-}

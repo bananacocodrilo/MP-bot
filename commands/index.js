@@ -8,3 +8,6 @@ module.exports.getCoupons = require('./getCoupons').getCoupons;
 
 module.exports.subscribe = require('./subscriptions').subscribe;
 module.exports.unsubscribe = require('./subscriptions').unsubscribe;
+
+module.exports.test = require('./test').test;
+

@@ -8,8 +8,7 @@ const models = require('./models');
 const commands = require('./commands');
 
 
-const token = config.token;
-const bot = new TelegramBot(token, {polling: true});
+const bot = new TelegramBot(config.token, {polling: true});
 const calculateKeyboardOptions = require('./src/chatFunctions').calculateKeyboardOptions;
 
 
@@ -25,7 +24,6 @@ bot.onText(/\/newCoupon (.+)/, (msg, match) => {
   });
 });
 bot.onText(/\/updateCoupon (.+)/, (msg, match) => {
-  console.log('update');
   commands.updateCoupon(msg, match, function(response){
     bot.sendMessage(msg.chat.id, response, config.basicOptions);
   });
@@ -50,6 +48,11 @@ bot.onText(/\/notify/, (msg, match) => {
     bot.sendMessage(msg.chat.id, 'Enviadas ' +users.length + ' notificaciones.');
   });
 });
+bot.onText(/\/test/, (msg, match) => {
+  commands.test(msg, match, function(response){
+    bot.sendMessage(msg.chat.id, response, config.basicOptions);
+  });
+});
 
 
 
@@ -69,7 +72,6 @@ bot.onText(/\/list/, (msg, match) => {
       bot.sendMessage(msg.chat.id, err);  
     });
 });
-
 bot.onText(/\/subscribe/, (msg, match) => {
   let response = '';
   commands.subscribe(msg, match)
@@ -84,7 +86,6 @@ bot.onText(/\/subscribe/, (msg, match) => {
       bot.sendMessage(msg.chat.id, err);  
     });
 });
-
 bot.onText(/\/unsubscribe/, (msg, match) => {
   let response = '';
   commands.unsubscribe(msg, match)
@@ -112,7 +113,7 @@ bot.onText(/\/help/, (msg, match) => {
 bot.onText(/\/about/, (msg, match) => {
   calculateKeyboardOptions(msg, 'about')
     .then((options) => {
-      bot.sendMessage(msg.chat.id, 'Proximo: Avisar a los usuarios subscritos cuando se cree algo nuevo', options);  
+      bot.sendMessage(msg.chat.id, 'En desarrollo: crawler para detectar nuevos cupones automaticamente \n Siguiente: Añadir otras webs y dar la opcion de subscribirse a una o varias.', options);  
     })
     .catch( err => {
       bot.sendMessage(msg.chat.id, err+'');  
@@ -125,11 +126,9 @@ function help(msg){
 
   userAct.userUpsert(msg)
   .then((user) => {
-    
     if(user === null){
       bot.sendMessage(config.adminId, 'New user!');    
     }
-    
     return calculateKeyboardOptions(msg, 'help');
   })
   .then((options) => {
@@ -143,4 +142,4 @@ function help(msg){
 
 setInterval(() => {
   bot.sendMessage(config.adminId, 'No te olvides de mi!');      
-}, 1000*60*60*24)
+}, 1000*60*60*24);

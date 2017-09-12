@@ -11,9 +11,12 @@
   "author": "Antonio Jose Alors Perez",
   "license": "MIT",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "fs": "0.0.1-security",
     "mongodb": "^2.2.31",
     "mongoose": "^4.11.10",
-    "node-telegram-bot-api": "^0.28.0"
+    "node-telegram-bot-api": "^0.28.0",
+    "request": "^2.81.0"
   },
   "devDependencies": {
     "nodemon": "^1.12.0"

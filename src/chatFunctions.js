@@ -4,6 +4,7 @@ let mongoose = require('mongoose');
 let User = mongoose.model('User');
 
 const bottomRow = ['/suggest','/about','/help'];
+const adminRow = ['/users','/notify','/test'];
 
 module.exports.calculateKeyboardOptions = function(msg){
   let options = {
@@ -19,6 +20,10 @@ module.exports.calculateKeyboardOptions = function(msg){
         topRow = ['/list', '/subscribe'];
       }
       options.reply_markup.keyboard = [topRow, bottomRow];
+
+      if(msg.chat.id == config.adminId){
+        options.reply_markup.keyboard.push(adminRow);
+      }
       resolve(options);
     });
 
@@ -54,7 +59,18 @@ module.exports.generateCouponsString = function(coupons, language){
           }
       }
     }
-    
     resolve(response);
+  });
+}
+
+
+
+module.exports.checkAdmin = function (msg){
+  return new Promise (function(resolve, reject){
+    if(msg.chat.id+'' === config.adminId){
+      resolve();
+    }else{
+      reject('This command is reserver for admins only');
+    }
   });
 }
