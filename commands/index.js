@@ -9,5 +9,7 @@ module.exports.getCoupons = require('./getCoupons').getCoupons;
 module.exports.subscribe = require('./subscriptions').subscribe;
 module.exports.unsubscribe = require('./subscriptions').unsubscribe;
 
-module.exports.test = require('./test').test;
+module.exports.test = require('./scrapper').test;
+module.exports.syncVoucher = require('./scrapper').syncVoucher;
+module.exports.syncCodes = require('./scrapper').syncCodes;
 

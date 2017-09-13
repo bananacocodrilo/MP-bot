@@ -28,6 +28,9 @@ let CouponSchema = new Schema({
   },
   incidences:{
     type:[{}]
+  },
+  type:{
+    type: String
   }
 });
 

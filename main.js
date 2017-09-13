@@ -49,7 +49,7 @@ bot.onText(/\/notify/, (msg, match) => {
   });
 });
 bot.onText(/\/test/, (msg, match) => {
-  commands.test(msg, match, function(response){
+  commands.test(bot, function(response){
     bot.sendMessage(msg.chat.id, response, config.basicOptions);
   });
 });
@@ -143,3 +143,11 @@ function help(msg){
 setInterval(() => {
   bot.sendMessage(config.adminId, 'No te olvides de mi!');      
 }, 1000*60*60*24);
+
+setInterval(() => {
+  commands.syncCodes(bot);
+}, 1000*60*60);
+
+setInterval(() => {
+  commands.syncVoucher(bot);
+}, 1000*5);
