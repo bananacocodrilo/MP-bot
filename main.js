@@ -139,15 +139,12 @@ function help(msg){
   });
 } 
 
-
-setInterval(() => {
-  bot.sendMessage(config.adminId, 'No te olvides de mi!');      
-}, 1000*60*60*24);
-
+commands.syncCodes(bot);
 setInterval(() => {
   commands.syncCodes(bot);
-}, 1000*60*60);
+}, 1000*60*60*2);
 
+commands.syncVoucher(bot);
 setInterval(() => {
   commands.syncVoucher(bot);
-}, 1000*5);
+}, 1000*60*60*2);
