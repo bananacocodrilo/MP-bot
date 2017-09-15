@@ -1,17 +1,13 @@
 'use strict';
 const config = require('../config.js');
-// const bot = new TelegramBot(config.token, {polling: true});
-
+let request = require('request');
+let cheerio = require('cheerio');
 let mongoose = require('mongoose');
+
 let Coupon = mongoose.model('Coupon');
 let User = mongoose.model('User');
 
 let checkAdmin = require('../src/chatFunctions').checkAdmin;
-
-
-let fs = require('fs');
-let request = require('request');
-let cheerio = require('cheerio');
 
 const urlCodes = 'https://www.myprotein.es/voucher-codes.list';
 const urlDiscounts = 'https://www.myprotein.es/our-range/clearance-shop.list';
@@ -33,6 +29,7 @@ exports.syncCodes = function( bot) {
             value: code, 
             endsAt: { $gte: Date.now() }
           }).then(exists =>{
+
             if(!exists.length){
                 message = +'New code created: \n'+ code +':'+ desc;
                 newCoupon = {
@@ -46,8 +43,8 @@ exports.syncCodes = function( bot) {
             
             } else if(exists.length && exists[0].descriptionEs !== desc){
 
-              message += 'Found existint code '+ code + 
-                    ' but descriptions dont match:\n'+desc+'\n'+exists.descriptionEs;
+              message += 'Encontrado un cupon que ya existia '+ code + 
+                    ' Pero las descripciones no cuadran: \n->'+desc+'\n->'+exists.descriptionEs;
             }
 
             bot.sendMessage(config.adminId, message, config.basicOptions);
@@ -70,29 +67,36 @@ exports.syncVoucher = function( bot) {
       $('.productListDescription_text').each(function(){
         
         var p = $(this).find("p");
-        var description  = p[1];
+        var description  = p[2];
         var texts = $(description).find("span");
         var desc = $(texts[1]).text();
         var b = $(texts[0]).find("b");
-        var code = $(b[2]).text();
+        let code = null;
 
-        if(code && desc){
+        for (let i = 0 ;i< b.length; i++){
+          let temp = $(b[i]).text();
+          
+          if (temp.length === 9 &&
+            temp === temp.toUpperCase()){
+              code = temp;
+              break;
+          }
+        }
+          
+          if(code && desc){
 
           
           Coupon.find({
             type: 'voucher'
           }).then(current =>{
-            console.log(current.length)
             if(current.length && current[0].value === code){
               bot.sendMessage(config.adminId, 'Voucher hasnt change', config.basicOptions);
             }else{
-              
               if(!current.length){
                 bot.sendMessage(config.adminId, 'No voucher found', config.basicOptions);
               }else{
-                Coupon.remove({type: 'voucher'});
+                Coupon.remove({type: 'voucher'}, function(err, info){});
               }  
-              
               
               let newCoupon = {
                 value: code,

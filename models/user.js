@@ -9,16 +9,12 @@ let UserSchema = new Schema({
   username: {
     type: String
   },
+  realm: {
+    type: String
+  },
   lastMessage: {
     type: Date,
     default: Date.now
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  messagesNumber: {
-    type: Number
   },
   couponsRequests:{
     type: Number    
@@ -27,8 +23,12 @@ let UserSchema = new Schema({
     type: Boolean,
     default: true    
   },
-  messages:{
+  suggestions:{
     type:[{}]
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
 });
 
