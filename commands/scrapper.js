@@ -82,10 +82,7 @@ exports.syncVoucher = function( bot) {
               break;
           }
         }
-          
-          if(code && desc){
-
-          
+        if(code && desc){
           Coupon.find({
             type: 'voucher'
           }).then(current =>{

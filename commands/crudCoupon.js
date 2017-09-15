@@ -95,6 +95,7 @@ exports.listUsers = function(msg, match, callback) {
   let users  = [];
   let response = '';
 
+  console.log(msg)
   checkAdmin(msg)
     .then(() => { 
       return  User.find({});
@@ -104,13 +105,12 @@ exports.listUsers = function(msg, match, callback) {
 
       for (var index = 0; index < usersArray.length; index++) {
         let user = usersArray[index];
-        response += '\n' + (user.username || user.id) + ': '+ user.subscribed;
+        response += '\n' + (user.username || user.firstName || user.id) + ': '+ user.subscribed;
       }
       
       callback(response);
     })
     .catch( err => {
-      console.log(err)
       callback(err+'');
     });
     

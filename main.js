@@ -126,6 +126,7 @@ function help(msg){
 
   userAct.userUpsert(msg)
   .then((user) => {
+    console.log(user)
     if(user === null){
       bot.sendMessage(config.adminId, 'New user!');    
     }

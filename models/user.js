@@ -8,6 +8,9 @@ let UserSchema = new Schema({
   },  
   username: {
     type: String
+  },  
+  firstName: {
+    type: String
   },
   realm: {
     type: String
